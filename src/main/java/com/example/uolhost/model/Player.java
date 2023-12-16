@@ -1,5 +1,7 @@
 package com.example.uolhost.model;
 
+import com.example.uolhost.model.dto.PlayerDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,5 +29,15 @@ public class Player {
     private String phoneNumber;
     private String codiname;
     private GroupType groupType;
+
+
+    public Player(PlayerDTO dto) {
+        this.name = dto.name();
+        this.email = dto.email();
+        this.phoneNumber = dto.phoneNumber();
+        this.groupType = dto.groupType();
+    }
+
+    
 
 }
