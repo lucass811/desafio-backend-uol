@@ -37,36 +37,36 @@ public class CodinameService {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @PostConstruct
-    public void loadJsonData() {
-        try {
+    public void loadJsonData(){
+        try{
             String codinameResponse = restTemplate.getForObject(environment.getProperty("avangers"), String.class);
             JsonNode jsonNode = objectMapper.readTree(codinameResponse);
 
             ArrayNode avangers = (ArrayNode) jsonNode.get("vingadores");
 
-            for (JsonNode item : avangers) {
-                this.avangersCodinameList.add(item.get("codiname").asText());
+            for(JsonNode item: avangers){
+                this.avangersCodinameList.add(item.get("codinome").asText());
             }
-
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
 
     @PostConstruct
-    public void loadXmlData() {
-        try {
+    public void loadXmlData(){
+        try{
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder =  factory.newDocumentBuilder();
+            Document document = builder.parse(environment.getProperty("justice.league"));
 
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(environment.getProperty("justice.league"));
+            NodeList codinameList = document.getElementsByTagName("codinome");
 
-            NodeList codinameList = document.getElementsByTagName("codiname");
-            for(int i = 0; i < codinameList.getLength(); i++) {
+            for(int i = 0; i < codinameList.getLength(); i++){
                 Element codinameElement = (Element) codinameList.item(i);
                 String codiname = codinameElement.getTextContent();
                 this.justiceLeagueList.add(codiname);
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();
